@@ -16,6 +16,7 @@ import axios from 'axios'
             <tr>
               <th>Eligibility</th>
               <th>Id</th>
+              <th>Quarter number</th>
               <th>Stand number</th>
               <th>Value class</th>
               <th>Average age</th>
@@ -29,6 +30,7 @@ import axios from 'axios'
             <tr v-for="stand in response.data.stands">
               <td :class="{ eligible: stand.yearsToLogging <= 0 }">{{ stand.eligibility }}</td>
               <td>{{ stand.id }}</td>
+              <td>{{ stand.quarterNbr }}</td>
               <td>{{ stand.standNbr }}</td>
               <td>{{ stand.bonityCode }}</td>
               <td>{{ stand.age }} years</td>
@@ -51,7 +53,8 @@ export default {
     return {
       response: [],
       message: "",
-      count: 0
+      count: 0,
+      cadastral: ""
     }
   },
   methods: {
@@ -65,6 +68,10 @@ export default {
         this.message = this.response.data.totalCount > 0 
           ? "Found " + this.response.data.totalCount + " stands, including " + this.response.data.eligibleNow + " stands eligible now" 
           : "No eligible stands found"
+          console.log(this.response.data)
+          this.$store.commit('setStands', {
+              stands: this.response.data.stands
+          })
       }
     }
   }

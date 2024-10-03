@@ -1,6 +1,7 @@
 <script setup>
 import Welcome from './components/Welcome.vue'
 import SearchForm from './components/SearchForm.vue'
+import MapContainer from './components/MapContainer.vue'
 </script>
 
 <template>
@@ -10,6 +11,7 @@ import SearchForm from './components/SearchForm.vue'
       <Welcome msg="Welcome!" />
     </div>
   </header>
+  <MapContainer />
 
   <main>
     <SearchForm />

@@ -8,7 +8,8 @@ defineProps({
 </script>
 
 <template>
-  <div class="greetings">
+  <div class="greetings"
+         style="width: 1000px">
     <h1 class="green">{{ msg }}</h1>
     <h3>
       Let's see if You have any stands eligible for IFM

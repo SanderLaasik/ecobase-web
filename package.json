@@ -9,7 +9,10 @@
     "preview": "vite preview"
   },
   "dependencies": {
-    "vue": "^3.4.29"
+    "ol": "^10.2.1",
+    "proj4": "^2.12.1",
+    "vue": "^3.4.29",
+    "vuex": "^4.0.2"
   },
   "devDependencies": {
     "@vitejs/plugin-vue": "^5.0.5",
