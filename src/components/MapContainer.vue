@@ -28,40 +28,23 @@
         components: {},
         props: {},
         vectorLayer: null,
-        coordinatesData: [],
+        vectorData: [],
         methods: {
-            getCoordinates() {
+            getVectorData() {
                 const data = {
-                    type: 'Feature',
-                    properties: {},
-                    geometry: {
-                        type: 'Polygon',
-                        coordinates: [
-                            [
-                                olProj.transform([579273.785, 6589448.659], 'EPSG:3301', 'EPSG:4326'),
-                                olProj.transform([579270.485, 6589441.008], 'EPSG:3301', 'EPSG:4326'),
-                                olProj.transform([579268.352, 6589425.86], 'EPSG:3301', 'EPSG:4326'),
-                                olProj.transform([579319.23, 6589406.681], 'EPSG:3301', 'EPSG:4326'),
-                                olProj.transform([579355.737, 6589384.468], 'EPSG:3301', 'EPSG:4326'),
-                                olProj.transform([579352.855, 6589404.787], 'EPSG:3301', 'EPSG:4326'),
-                                olProj.transform([579339.161, 6589501.315], 'EPSG:3301', 'EPSG:4326'),
-                                olProj.transform([579273.785, 6589448.659], 'EPSG:3301', 'EPSG:4326'),
-                                olProj.transform([579273.785, 6589448.659], 'EPSG:3301', 'EPSG:4326')
-                            ],
-                            [
-                                olProj.transform([563958.03, 6576432.94], 'EPSG:3301', 'EPSG:4326'),
-                                olProj.transform([574142.20, 6587071.03], 'EPSG:3301', 'EPSG:4326'),
-                                olProj.transform([586811.82, 6582075.29], 'EPSG:3301', 'EPSG:4326'),
-                                olProj.transform([563958.03, 6576432.94], 'EPSG:3301', 'EPSG:4326')
-                            ]
-                        ]
-                    }
+                    type: 'Feature'
                 };
                 return data
             },
-            setVectorProperties(newValue) {
-                this.coordinatesData = this.getCoordinates()
-                const feature = new GeoJSON().readFeature(this.coordinatesData, {
+            setVectorProperties(standsCoordinates) {
+                this.vectorData = {
+                    type: 'Feature',
+                    geometry: {
+                        type: 'Polygon',
+                        coordinates: standsCoordinates
+                    }
+                }
+                const feature = new GeoJSON().readFeature(this.vectorData, {
                     featureProjection: 'EPSG:3857'
                 });
 
@@ -98,12 +81,17 @@
         watch: {
             stands() {
                 const stands = this.$store.getters.getStandsAndCoordinates;
-                console.log(stands)
-                stands.forEach(element => {
-                    
+                var standsCoordinates = []
+                stands.forEach(stand => {
+                    var coordinates = []
+                    stand.coordinates[0][0].forEach(standCoordinate => {
+                        const coordinate = olProj.transform(standCoordinate, 'EPSG:3301', 'EPSG:4326')
+                        coordinates.push(coordinate)
+                    })
+                    standsCoordinates.push(coordinates)
                 });
                 
-                //this.setVectorProperties(newValue)
+                this.setVectorProperties(standsCoordinates)
             },
         },
     }
