@@ -68,7 +68,6 @@ export default {
         this.message = this.response.data.totalCount > 0 
           ? "Found " + this.response.data.totalCount + " stands, including " + this.response.data.eligibleNow + " stands eligible now" 
           : "No eligible stands found"
-          console.log(this.response.data)
           this.$store.commit('setStands', {
               stands: this.response.data.stands
           })
